@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "GetPurity.C": "cpp",
+        "MakePhiQA.C": "cpp",
+        "MakeLambdaPhiQA(1).C": "cpp",
+        "pphisourcerad.C": "cpp"
+    }
+}

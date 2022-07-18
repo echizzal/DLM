@@ -544,6 +544,87 @@ double LednickyCoulomb_Singlet(const double& Momentum, const double* SourcePar, 
     return GeneralCoulombLednicky(Momentum,SourcePar[0],PotPar[0],PotPar[1],false,PotPar[2],PotPar[3]);
 }
 
+//SourcePar[0] = Radius 1
+//SourcePar[1] = Radius 2
+//PotPar[0] = a0 for 1S0
+//PotPar[1] = Reff for 1S0
+//PotPar[2] = RedMass
+//PotPar[3] = Q1Q2
+//PotPar[4] = radius 1 weight
+double LednickyCoulomb_Singlet_doublegaussian(const double& Momentum, const double* SourcePar, const double* PotPar){
+    //return CoulombPenetrationFactor(Momentum,PotPar[2],PotPar[3])*Lednicky_Singlet(Momentum,SourcePar,PotPar);
+    return (PotPar[4]*GeneralCoulombLednicky(Momentum,SourcePar[0],PotPar[0],PotPar[1],false,PotPar[2],PotPar[3])+(1-PotPar[4])*GeneralCoulombLednicky(Momentum,SourcePar[1],PotPar[0],PotPar[1],false,PotPar[2],PotPar[3]));
+}
+
+//PotPar[5] = source lambda
+
+double LednickyCoulomb_Singlet_doublegaussian_lambda(const double& Momentum, const double* SourcePar, const double* PotPar){
+    //return CoulombPenetrationFactor(Momentum,PotPar[2],PotPar[3])*Lednicky_Singlet(Momentum,SourcePar,PotPar);
+    return PotPar[5]*(PotPar[4]*GeneralCoulombLednicky(Momentum,SourcePar[0],PotPar[0],PotPar[1],false,PotPar[2],PotPar[3])+(1-PotPar[4])*GeneralCoulombLednicky(Momentum,SourcePar[1],PotPar[0],PotPar[1],false,PotPar[2],PotPar[3]))+1.-PotPar[5];
+}
+
+// //SourcePar[0] = Radius 1
+// //SourcePar[1] = Radius 2
+// //PotPar[0] = Re a0
+// //PotPar[1] = Im a0
+// //PotPar[2] = d0
+// //PotPar[3] = lambda
+// //PotPar[4] = radius 1 weight
+
+// double ComplexLednicky_Singlet_doublegaussian_lambda(const double& Momentum, const double* SourcePar, const double* PotPar){
+//     complex<double> ScatLen(PotPar[0],PotPar[1]);
+//     return PotPar[3]*(PotPar[4]*GeneralLednicky(Momentum,SourcePar[0],ScatLen,PotPar[2],0,0,true,false,false)+(1-PotPar[4])*GeneralLednicky(Momentum,SourcePar[1],ScatLen,PotPar[2],0,0,true,false,false));
+// }
+
+double GeneralCoulombLednickySecond(const double &Momentum, const double &GaussR, const double &ScattLenSin,
+                                    const double &EffRangeSin, const double &ScattLenTri, const double &EffRangeTri,
+                                    const bool &QS, const double &RedMass, const double &Q1Q2) {
+    return 1. / 3 * GeneralCoulombLednicky(Momentum, GaussR, ScattLenSin, EffRangeSin, QS, RedMass, Q1Q2) +
+           2. / 3 * GeneralCoulombLednicky(Momentum, GaussR, ScattLenTri, EffRangeTri, QS, RedMass, Q1Q2);
+}
+
+double GeneralCoulombLednickyTwoRadii(const double& Momentum, const double* SourcePar, const double* PotPar) {
+  return PotPar[2] * GeneralCoulombLednicky(Momentum,PotPar[0],PotPar[3],PotPar[4],bool(PotPar[5]),PotPar[6],PotPar[7]) 
+         + (1 - PotPar[2]) * GeneralCoulombLednicky(Momentum,PotPar[1],PotPar[3],PotPar[4],bool(PotPar[5]),PotPar[6],PotPar[7]);
+}
+
+double GeneralCoulombLednickySecondTwoRadii(const double& Momentum, const double* SourcePar, const double* PotPar) {
+  return PotPar[2] * GeneralCoulombLednickySecond(Momentum,PotPar[0],PotPar[3],PotPar[4],PotPar[5],PotPar[6],bool(PotPar[7]),PotPar[8],PotPar[9])
+         + (1 - PotPar[2]) * GeneralCoulombLednickySecond(Momentum,PotPar[1],PotPar[3],PotPar[4],PotPar[5],PotPar[6],bool(PotPar[7]),PotPar[8],PotPar[9]);
+}
+
+double LednickyCoulomb_Singlet_doublegaussian_2channels(const double& Momentum, const double* SourcePar, const double* PotPar){
+    //return CoulombPenetrationFactor(Momentum,PotPar[2],PotPar[3])*Lednicky_Singlet(Momentum,SourcePar,PotPar);
+    //SourcePar[0] = Radius 1
+    //SourcePar[1] = Radius 2
+    //PotPar[0] = a0 for channel 1
+    //PotPar[1] = Reff for channel 1
+    //PotPar[2] = RedMass
+    //PotPar[3] = Q1Q2
+    //PotPar[4] = weight radius 1
+    //PotPar[5] = weight channel 1
+    //PotPar[6] = a0 for channel 2
+    //PotPar[7] = Reff for channel 2
+    return (PotPar[5]*(PotPar[4]*GeneralCoulombLednicky(Momentum,SourcePar[0],PotPar[0],PotPar[1],false,PotPar[2],PotPar[3])+(1-PotPar[4])*GeneralCoulombLednicky(Momentum,SourcePar[1],PotPar[0],PotPar[1],false,PotPar[2],PotPar[3]))+(1-PotPar[5])*(PotPar[4]*GeneralCoulombLednicky(Momentum,SourcePar[0],PotPar[6],PotPar[7],false,PotPar[2],PotPar[3])+(1-PotPar[4])*GeneralCoulombLednicky(Momentum,SourcePar[1],PotPar[6],PotPar[7],false,PotPar[2],PotPar[3])));
+}
+
+double LednickyCoulomb_Singlet_doublegaussian_2channels_lambda(const double& Momentum, const double* SourcePar, const double* PotPar){
+    //return CoulombPenetrationFactor(Momentum,PotPar[2],PotPar[3])*Lednicky_Singlet(Momentum,SourcePar,PotPar);
+    //SourcePar[0] = Radius 1
+    //SourcePar[1] = Radius 2
+    //PotPar[0] = a0 for channel 1
+    //PotPar[1] = Reff for channel 1
+    //PotPar[2] = RedMass
+    //PotPar[3] = Q1Q2
+    //PotPar[4] = weight radius 1
+    //PotPar[5] = weight channel 1
+    //PotPar[6] = a0 for channel 2
+    //PotPar[7] = Reff for channel 2
+    //PotPar[8] = lambda source
+
+    return PotPar[5]*(PotPar[8]*(PotPar[4]*GeneralCoulombLednicky(Momentum,SourcePar[0],PotPar[0],PotPar[1],false,PotPar[2],PotPar[3])+(1-PotPar[4])*GeneralCoulombLednicky(Momentum,SourcePar[1],PotPar[0],PotPar[1],false,PotPar[2],PotPar[3]))+1.-PotPar[8])+(1-PotPar[5])*(PotPar[8]*(PotPar[4]*GeneralCoulombLednicky(Momentum,SourcePar[0],PotPar[6],PotPar[7],false,PotPar[2],PotPar[3])+(1-PotPar[4])*GeneralCoulombLednicky(Momentum,SourcePar[1],PotPar[6],PotPar[7],false,PotPar[2],PotPar[3]))+1.-PotPar[8]);
+}
+
 double LednickyCoulomb_Identical_Singlet(const double& Momentum, const double* SourcePar, const double* PotPar){
     //return CoulombPenetrationFactor(Momentum,PotPar[2],PotPar[3])*Lednicky_Identical_Singlet(Momentum,SourcePar,PotPar);
     //return Lednicky_Identical_Singlet(Momentum,SourcePar,PotPar);

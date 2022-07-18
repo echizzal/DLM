@@ -35,6 +35,25 @@ void CleanUpV18Pot(){
 
 }
 
+//[0] - r; [1] = k;
+double PhiNLatticeAexp(double* Pars){
+
+    double mpi_unphys = Pars[9];// 146.4 (below Pars[2])
+    double mpi_phys = Pars[10]; // 138. (above Pars[2])
+    double fm = 1. / 197.3269804;  // fermi in MeV^-1
+    double switchradius=Pars[2];
+
+    if(Pars[0]>switchradius){
+        return Pars[3] * expl(-powl(Pars[0] / Pars[4], 2)) + Pars[5] * expl(-powl(Pars[0] / Pars[6], 2))
+           + Pars[7] * powl(mpi_phys, 4) * expl(-2 * mpi_phys * Pars[0] * fm) / powl(Pars[0], 2) * powl(1. - expl(-powl(Pars[0] / Pars[8], 2)), 2);
+    }
+    else{
+        return Pars[3] * expl(-powl(Pars[0] / Pars[4], 2)) + Pars[5] * expl(-powl(Pars[0] / Pars[6], 2))
+           + Pars[7] * powl(mpi_unphys, 4) * expl(-2 * mpi_unphys * Pars[0] * fm) / powl(Pars[0], 2) * powl(1. - expl(-powl(Pars[0] / Pars[8], 2)), 2);
+    }
+
+}
+
 double ZeroPotential(double* Radius){
     return 0;
 }

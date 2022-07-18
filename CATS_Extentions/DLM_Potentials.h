@@ -16,7 +16,7 @@ enum DLMPOT {   NN_AV18, NN_ReidV8, pp_ReidSC, pp_ReidOli, pp_ReidCrab, pp_ReidV
 enum V18FLAG { v18_Default, v18_SingleChannelMagic, v18_Coupled3P2 };
 
 void CleanUpV18Pot();
-
+double PhiNLatticeAexp(double* Pars);
 double ZeroPotential(double* Radius);
 
 double SingleGauss(double* Pars);

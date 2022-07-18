@@ -44,6 +44,15 @@ double Lednicky_Singlet_InvScatLen(const double& Momentum, const double* SourceP
 double Lednicky_Identical_Triplet(const double& Momentum, const double* SourcePar, const double* PotPar);
 double Lednicky_Triplet(const double& Momentum, const double* SourcePar, const double* PotPar);
 double LednickyCoulomb_Singlet(const double& Momentum, const double* SourcePar, const double* PotPar);
+double LednickyCoulomb_Singlet_doublegaussian(const double& Momentum, const double* SourcePar, const double* PotPar);
+double GeneralCoulombLednickySecond(const double &Momentum, const double &GaussR, const double &ScattLenSin,
+                                    const double &EffRangeSin, const double &ScattLenTri, const double &EffRangeTri,
+                                    const bool &QS, const double &RedMass, const double &Q1Q2);
+double GeneralCoulombLednickyTwoRadii(const double& Momentum, const double* SourcePar, const double* PotPar);
+double GeneralCoulombLednickySecondTwoRadii(const double& Momentum, const double* SourcePar, const double* PotPar);
+double LednickyCoulomb_Singlet_doublegaussian_lambda(const double& Momentum, const double* SourcePar, const double* PotPar);
+double LednickyCoulomb_Singlet_doublegaussian_2channels(const double& Momentum, const double* SourcePar, const double* PotPar);
+double LednickyCoulomb_Singlet_doublegaussian_2channels_lambda(const double& Momentum, const double* SourcePar, const double* PotPar);
 double LednickyCoulomb_Identical_Singlet(const double& Momentum, const double* SourcePar, const double* PotPar);
 double LednickyCoulomb_Triplet(const double& Momentum, const double* SourcePar, const double* PotPar);
 double LednickyCoulomb_Identical_Triplet(const double& Momentum, const double* SourcePar, const double* PotPar);

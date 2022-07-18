@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #Make sure you set the correct paths
-PATH_TO_CATS='../CATS'
-PATH_TO_DLMCPPTOOLS='../DLM_CppTools'
+PATH_TO_CATS='/home/emma/DLM/CATS'
+PATH_TO_DLMCPPTOOLS='/home/emma/DLM/DLM_CppTool'
 PATH_TO_GSL_INCLUDE='/usr/include/gsl'
 PATH_TO_GSL_LIB='/usr/lib'
 
